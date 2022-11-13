@@ -1,0 +1,4 @@
+node_modules/
+rabbitmq
+.vscode
+.debug.log
