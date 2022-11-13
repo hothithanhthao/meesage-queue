@@ -1,0 +1,40 @@
+version: '3.6'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3
+    hostname: my-rabbit
+    expose: [5672]
+  orig:
+    build:
+      context: ./ORIG
+      dockerfile: Dockerfile
+    expose: [8001]
+    restart: always
+    command: npm start
+  imed:
+    build:
+      context: ./IMED
+      dockerfile: Dockerfile
+    expose: [8002]
+    restart: always
+    command: npm start
+  obser:
+    build:
+      context: ./OBSE
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/data
+    expose: [8003]
+    restart: always
+    command: npm start
+  httpserv:
+    build:
+      context: ./HTTPSERV
+      dockerfile: Dockerfile
+    volumes_from:
+      - obser
+    ports:
+      - 8080:8080
+    restart: always
+    command: npm start
