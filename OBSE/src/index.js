@@ -35,7 +35,7 @@ async function init() {
         channel.consume(q.queue, async (msg) => {
           await sleep(1000);
           const message = `${msg.content.toString()}`;
-          const writableMsg = `${new Date().toISOString(Date.now())} Topic ${msg.fields.routingKey}: ${message}\n`
+          const writableMsg = `${new Date().toISOString(Date.now())} ${msg.fields.deliveryTag} ${message} to ${msg.fields.routingKey}\n`
 
           fs.appendFile(FILENAME, writableMsg, 'utf8',(err) => {
             if (err) throw err;
